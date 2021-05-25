@@ -1,0 +1,19 @@
+every 5 minutes in world "world":
+	loop all players:
+		if {afk.lastloc.%loop-player%} is not set:
+			set {afk.lastloc.%loop-player%} to location of loop-player
+		else:
+			if {afk.lastloc.%loop-player%} is location of loop-player:
+				if {afk.prop.%loop-player%} is not set:
+					set {afk.prop.%loop-player%} to 0
+				add 1 to {afk.prop.%loop-player%}
+				if {afk.prop.%loop-player%} is 19:
+					send "&c[AFK] &a&lZaraz zostaniesz wyrzucony/a za afk" to loop-player
+				if {afk.prop.%loop-player%} is 20:
+					set {afk.prop.%loop-player%} to 0
+					delete {afk.lastloc.%loop-player%}
+					set {antylogout.%loop-player%} to 0
+					kick loop-player due to "&c[AFK] &7Byłeś/aś afk przez ponad 1.5 godziny"
+			else:
+				set {afk.lastloc.%loop-player%} to location of loop-player
+				set {afk.prop.%loop-player%} to 0
